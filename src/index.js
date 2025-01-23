@@ -1,12 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
-import FormikLogin from "./components/FormikLogin";
+import { BrowserRouter , Route , Routes } from "react-router-dom";
+import App from "./App";
+import Category from "./routes2/Category";
+import Product from "./routes2/Product";
 
 const container = document.getElementById ( "root" );
 const root = ReactDOM.createRoot ( container );
 root.render (
     <BrowserRouter>
-        <FormikLogin/>
+        {/*<App/>*/}
+        <Routes>
+            <Route path="/" element={<Category />}></Route>
+            <Route path="/:categoryId" element={<Product />}></Route>
+        </Routes>
     </BrowserRouter> ,
 );
