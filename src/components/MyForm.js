@@ -1,73 +1,21 @@
 import React, { useState } from "react";
-
-export default function Submit() {
-    const [state, setState] = useState({
-        name: "",
-        email: "",
-        password: "",
-        errormessage: ""
-    });
-    // File
-    const [selectedFile, setSelectedFile] = useState();
-
-    const [isFilePicked, setIsFilePicked] = useState(false);
-
+export default function MyForm() {
+    const [form, setForm] = useState({});
     const handleChange = (e) => {
-        const { name, value, files } = e.target;
-
-        if (files) {
-            // If it's a file input
-            setSelectedFile(files[0]);
-            setIsFilePicked(true);
-        } else {
-            // if (name === "email") {
-            //     if (!Number(value)) {
-            //         alert("Your email must be a number");
-            //     }
-            // }
-            // If it's a text input
-            setState({ ...state, [name]: value });
-        }
-
-
+        setForm({...form, [e.target.name]: e.target.value});
     }
-
-    const submitHandler = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        let err = "";
-        // You can handle form submission logic here
-        console.log("Form submitted with state:", state);
-        if(!Number(state.email)){
-            // alert("Your email should be a number");
-            err = "Your email should be a number";
-            setState({ ...state, errormessage: err });
-        }
-        if (selectedFile) {
-            console.log("Selected file:", selectedFile);
-        }
+        const isValid = form.username && form.email && form.password && form.confirmPassword;
+        alert(isValid ? 'Signin successful!' : 'Fill all fields please!');
     }
     return (
-        <form onSubmit={submitHandler} style={{display: "flex", flexDirection: "column", maxWidth: 400, gap: 16}}>
-            <h1>{state.name}</h1>
-            <input type="text" onChange={handleChange} name={"name"} placeholder="Name"/>
-            <input type="text" onChange={handleChange} name={"email"} placeholder="Email"/>
-            <input type="text" onChange={handleChange} name={"password"} placeholder="Password"/>
-            <input type="file" name="file" onChange={handleChange}/>
-            {isFilePicked ? (
-                <div>
-                    <p>Filename: {selectedFile.name}</p>
-                    <p>Filetype: {selectedFile.type}</p>
-                    <p>Size in bytes: {selectedFile.size}</p>
-                    <p>
-                        lastModifiedDate:{" "}
-                        {selectedFile.lastModifiedDate.toLocaleDateString()}
-                    </p>
-                </div>
-            ) : (
-                <p>Select a file to show details</p>
-            )}
-            {state.errormessage}
-            <input type="submit"/>
+        <form onSubmit={handleSubmit}>
+            <input type="text" name="username" onChange={handleChange} value={form.username || ''} placeholder="Username" />
+            <input type="text" name="email" onChange={handleChange} value={form.email || ''} placeholder="Email" />
+            <input type="text" name="password" onChange={handleChange} value={form.password || ''} placeholder="Password" />
+            <input type="text" name="confirmPassword" onChange={handleChange} value={form.confirmPassword || ''} placeholder="Confirm Password" />
+            <button type="button" onClick={handleSubmit}>Submit</button>
         </form>
     )
 }
