@@ -5,6 +5,7 @@ export default function Submit() {
         name: "",
         email: "",
         password: "",
+        errormessage: ""
     });
     // File
     const [selectedFile, setSelectedFile] = useState();
@@ -33,10 +34,13 @@ export default function Submit() {
 
     const submitHandler = (e) => {
         e.preventDefault();
+        let err = "";
         // You can handle form submission logic here
         console.log("Form submitted with state:", state);
         if(!Number(state.email)){
-            alert("Your email should be a number");
+            // alert("Your email should be a number");
+            err = "Your email should be a number";
+            setState({ ...state, errormessage: err });
         }
         if (selectedFile) {
             console.log("Selected file:", selectedFile);
@@ -62,6 +66,7 @@ export default function Submit() {
             ) : (
                 <p>Select a file to show details</p>
             )}
+            {state.errormessage}
             <input type="submit"/>
         </form>
     )
