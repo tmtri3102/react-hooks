@@ -1,7 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import MyForm from "./components/MyForm";
+import { BrowserRouter } from "react-router-dom";
+import FormikLogin from "./components/FormikLogin";
 
-const container = document.getElementById("root");
-const root = ReactDOM.createRoot(container);
-root.render(<MyForm />);
+const container = document.getElementById ( "root" );
+const root = ReactDOM.createRoot ( container );
+root.render (
+    <BrowserRouter>
+        <FormikLogin/>
+    </BrowserRouter> ,
+);
