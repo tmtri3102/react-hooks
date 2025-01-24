@@ -1,70 +1,77 @@
-# Getting Started with Create React App
+# Hướng Dẫn FormikBook
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 1. Giải Thích Logic Của Code
 
-## Available Scripts
+### Mục Tiêu
+Ứng dụng này được xây dựng để quản lý danh sách sách trong thư viện. Người dùng có thể thêm mới, chỉnh sửa hoặc xóa các sách trong danh sách. Dữ liệu được lưu trữ trong `useState`, và biểu mẫu nhập liệu được xử lý bằng thư viện `Formik`.
 
-In the project directory, you can run:
+### Cấu Trúc Chính
+- **Trạng thái (State):**
+    - `book`: Một mảng lưu danh sách các cuốn sách.
+    - `form`: Một đối tượng lưu dữ liệu biểu mẫu hiện tại.
+    - `indexSelected`: Lưu chỉ mục của cuốn sách đang được chỉnh sửa. Nếu không có cuốn nào được chọn, giá trị là `-1`.
 
-### `npm start`
+- **Các Chức Năng Quan Trọng:**
+    1. **`handleValidate`:**
+        - Dùng để xác thực dữ liệu biểu mẫu.
+        - Kiểm tra nếu trường `title` hoặc `quantity` bị bỏ trống, trả về lỗi tương ứng.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+    2. **`handleSelect`:**
+        - Gán cuốn sách được chọn vào biểu mẫu để chỉnh sửa.
+        - Cập nhật `indexSelected` để biết cuốn nào đang được chỉnh sửa.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+    3. **`handleDelete`:**
+        - Xóa sách được chọn dựa trên `indexSelected`.
 
-### `npm test`
+    4. **`handleSubmit`:**
+        - Xử lý khi biểu mẫu được gửi đi:
+            - Nếu đang chỉnh sửa một cuốn sách (`indexSelected > -1`), thay thế sách trong mảng `book` tại vị trí được chọn.
+            - Nếu không, thêm sách mới vào danh sách.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Giao Diện Biểu Mẫu
+- Biểu mẫu hiển thị các trường nhập liệu (`title` và `quantity`), kèm theo thông báo lỗi nếu dữ liệu không hợp lệ.
+- Một bảng hiển thị danh sách sách, với các nút `Edit` (chỉnh sửa) và `Delete` (xóa) ở từng dòng.
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 2. Giải Thích Cách Hoạt Động Của Formik
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Formik Là Gì?
+`Formik` là một thư viện hỗ trợ quản lý biểu mẫu trong React. Nó giúp giảm thiểu công việc xử lý dữ liệu biểu mẫu, xác thực và gửi dữ liệu.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Các Thành Phần Của Formik Trong Ứng Dụng
+1. **`initialValues`:**
+    - Giá trị khởi tạo của biểu mẫu, được gán từ trạng thái `form`.
+    - `enableReinitialize={true}`: Đảm bảo biểu mẫu tự cập nhật khi giá trị của `form` thay đổi.
 
-### `npm run eject`
+2. **`validate`:**
+    - Hàm xác thực dữ liệu biểu mẫu (`handleValidate`).
+    - Nếu có lỗi, trả về một đối tượng chứa thông báo lỗi.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3. **`onSubmit`:**
+    - Hàm xử lý khi biểu mẫu được gửi đi:
+        - Thêm sách mới hoặc chỉnh sửa sách hiện có.
+        - Xóa dữ liệu biểu mẫu sau khi xử lý thành công (`resetForm`).
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+4. **Render Props:**
+    - `Formik` sử dụng render props để cung cấp các phương thức và giá trị cần thiết:
+        - `values`: Giá trị hiện tại của biểu mẫu.
+        - `handleChange`: Hàm cập nhật giá trị khi người dùng thay đổi input.
+        - `handleSubmit`: Hàm xử lý khi nhấn nút "Submit".
+        - `errors`: Các lỗi xác thực.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Mục Đích Của Formik
+- **Quản lý giá trị biểu mẫu:** Tránh việc tự tạo logic phức tạp để lưu trữ và cập nhật giá trị.
+- **Xác thực dễ dàng:** Tích hợp xác thực với các lỗi cụ thể.
+- **Tự động hóa quy trình gửi biểu mẫu:** Tối ưu hóa việc xử lý dữ liệu khi người dùng nhấn nút "Submit".
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## 3. Cách Ứng Dụng Hoạt Động
+1. Nhập thông tin sách (Tiêu đề và Số lượng) vào biểu mẫu.
+2. Nhấn nút "Add" để thêm sách mới hoặc "Update" để chỉnh sửa sách.
+3. Danh sách sách hiển thị bên dưới, với các nút:
+    - `Edit`: Chỉnh sửa thông tin sách.
+    - `Delete`: Xóa sách khỏi danh sách.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Ứng dụng này là một ví dụ đơn giản nhưng hiệu quả trong việc sử dụng `Formik` để quản lý biểu mẫu React.
