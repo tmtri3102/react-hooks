@@ -1,22 +1,22 @@
 import React , { Component , useState } from 'react';
 import { Formik } from 'formik';
 
-export default function FormikLogin() {
-    const [formState , setFormState] = useState ( {} );
+export default function FormikLogin(){
+    const [formState , setFormState ] = useState ( {} );
     const REGEX = {
         email: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/ ,
     };
     const handleChange = (e) => {
         setFormState ( {
-            ...formState ,
+            ...formState,
             [e.target.name]: e.target.value
-        } )
+        })
     }
     const handleValidate = (e) => {
         const errors = {};
         if (!formState.email) {
             errors.email = "Email Required";
-        } else if (!REGEX.email.test ( formState.email )) {
+        } else if (!REGEX.email.test(formState.email)) {
             errors.email = "Invalid email address";
         }
         if (!formState.password) {
@@ -27,7 +27,7 @@ export default function FormikLogin() {
     }
 
     const handleSubmit = (e) => {
-        alert ( "Submitted" )
+        alert("Submitted")
     }
 
     return (
@@ -36,7 +36,7 @@ export default function FormikLogin() {
             validate={handleValidate}
             onSubmit={handleSubmit}
         >
-            {({errors , handleSubmit}) => (
+            {({errors, handleSubmit}) => (
                 <form onSubmit={handleSubmit}>
                     <input type="email" name={"email"} onChange={handleChange} value={formState.email || ""}
                            placeholder="Email"/>

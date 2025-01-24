@@ -1,8 +1,11 @@
 import {useNavigate} from 'react-router-dom';
 export default function Category() {
     const navigate = useNavigate();
+    // const sendData = (e) => {
+    //     navigate(`${e.target.value}`);
+    // }
     const sendData = (e) => {
-        navigate(`${e.target.value}`);
+        navigate(`/product/${e.target.value}`, { state: { categoryId: e.target.value } });
     }
     return (
         <>
